@@ -1,0 +1,43 @@
+; SYNTAX TEST "text.tfplandiff" "A small but typical result"
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+; <--- punctuation.definition.deletedinserted.tfplandiff
+; <- punctuation.definition.deleted.tfplandiff
+; ^ punctuation.definition.inserted.tfplandiff
+
+Terraform will perform the following actions:
+
+  # null_resource.example must be replaced
+; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.tfplandiff
+-/+ resource "null_resource" "example" {
+; <--- punctuation.definition.deletedinserted.tfplandiff
+; <- punctuation.definition.deleted.tfplandiff
+; ^ punctuation.definition.inserted.tfplandiff
+;   ^^^^^^^^ keyword.control.tfplandiff
+;            ^^^^^^^^^^^^^^^ string.quoted.double.tfplandiff
+;                            ^^^^^^^^^ string.quoted.double.tfplandiff
+;                                      ^ punctuation.definition.block.tfplandiff
+      ~ id       = "1907381979371768854" -> (known after apply)
+;     ^ punctuation.definition.changed.tfplandiff
+;                ^ punctuation.separator.key-value.tfplandiff
+;                  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.tfplandiff
+;                                        ^^ punctuation.separator.becomes.tfplandiff
+;                                           ^^^^^^^^^^^^^^^^^^ markup.italic.tfplandiff
+
+      ~ triggers = { # forces replacement
+;     ^ punctuation.definition.changed.tfplandiff
+;                    ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.tfplandiff
+          ~ "annoying" = jsonencode( # whitespace changes
+;                                    ^ comment.line.number-sign.tfplandiff
+;         ^ punctuation.definition.changed.tfplandiff
+;                      ^ punctuation.separator.key-value.tfplandiff
+;                        ^^^^^^^^^^ entity.name.function.tfplandiff
+                {
+                    a = 1
+;                     ^ punctuation.separator.key-value.tfplandiff
+                }
+            )
+        }
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.

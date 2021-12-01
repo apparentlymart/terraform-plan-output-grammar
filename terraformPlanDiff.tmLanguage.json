@@ -1,0 +1,170 @@
+{
+  "name": "Terraform Plan Diff",
+  "scopeName": "text.tfplandiff",
+  "patterns": [
+    {
+      "include": "#resource-block"
+    },
+    {
+      "include": "#markers"
+    },
+    {
+      "include": "#comments"
+    }
+  ],
+  "repository": {
+    "resource-block": {
+      "patterns": [
+        {
+          "name": "meta.resource.tfplandiff",
+          "begin": "^(?:((-)/(\\+))|((\\+)/(-))|  (\\+)|  (-)|  (~)) (resource|data) (\"\\w+\") (\"\\w+\") ({)",
+          "beginCaptures": {
+            "1": {"name": "punctuation.definition.deletedinserted.tfplandiff"},
+            "2": {"name": "punctuation.definition.deleted.tfplandiff"},
+            "3": {"name": "punctuation.definition.inserted.tfplandiff"},
+            "4": {"name": "punctuation.definition.inserteddeleted.tfplandiff"},
+            "5": {"name": "punctuation.definition.inserted.tfplandiff"},
+            "6": {"name": "punctuation.definition.deleted.tfplandiff"},
+            "7": {"name": "punctuation.definition.inserted.tfplandiff"},
+            "8": {"name": "punctuation.definition.deleted.tfplandiff"},
+            "9": {"name": "punctuation.definition.updated.tfplandiff"},
+            "10": {"name": "keyword.control.tfplandiff"},
+            "11": {"name": "string.quoted.double.tfplandiff"},
+            "12": {"name": "string.quoted.double.tfplandiff"},
+            "13": {"name": "punctuation.definition.block.tfplandiff"}
+          },
+          "end": "}",
+          "endCaptures": {
+            "0": {"name": "punctuation.definition.block.tfplandiff"}
+          },
+          "patterns": [{"include":"#resource-block-content"}]
+        }
+      ]
+    },
+    "resource-block-content": {
+      "patterns": [
+        { "include": "#comments" },
+        {
+          "name": "meta.braces",
+          "begin": "{",
+          "end": "}",
+          "beginCaptures": {
+            "0": {"name": "punctuation.section.braces.begin"}
+          },
+          "endCaptures": {
+            "0": {"name": "punctuation.section.braces.end"}
+          },
+          "patterns": [{"include":"#resource-block-content"}]
+        },
+        {
+          "name": "string.quoted.double.tfplandiff",
+          "begin": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.tfplandiff"
+            }
+          },          
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.tfplandiff"
+            }
+          },
+          "patterns": [
+            {
+              "name": "constant.character.escape.tfplandiff",
+              "match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|u\\{[0-9A-Fa-f]+\\}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.|$)"
+            }
+          ]
+        },
+        { "include": "#markers" },
+        {
+          "match": "(jsonencode)\\(",
+          "captures": {
+            "1": {"name": "entity.name.function.tfplandiff"}
+          }
+        },
+        {
+          "match": " (=) ",
+          "captures": {
+            "1": {"name": "punctuation.separator.key-value.tfplandiff"}
+          }
+        },
+        {
+          "match": " (->) ",
+          "captures": {
+            "1": {"name": "punctuation.separator.becomes.tfplandiff"}
+          }
+        },
+        {
+          "name": "markup.italic.tfplandiff",
+          "match": "\\(known after apply|sensitive value\\)"
+        }
+      ]
+    },
+    "markers": {
+      "patterns": [
+        {
+          "match": "^\\s*((-)/(\\+)) ",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.deletedinserted.tfplandiff"
+            },
+            "2": {
+              "name": "punctuation.definition.deleted.tfplandiff"
+            },
+            "3": {
+              "name": "punctuation.definition.inserted.tfplandiff"
+            }
+          }
+        },
+        {
+          "match": "^\\s*((\\+)/(-)) ",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.inserteddeleted.tfplandiff"
+            },
+            "2": {
+              "name": "punctuation.definition.inserted.tfplandiff"
+            },
+            "3": {
+              "name": "punctuation.definition.deleted.tfplandiff"
+            }
+          }
+        },
+        {
+          "match": "^\\s*(-) ",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.deleted.tfplandiff"
+            }
+          }
+        },
+        {
+          "match": "^\\s*(\\+) ",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.inserted.tfplandiff"
+            }
+          }
+        },
+        {
+          "match": "^\\s*(~) ",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.changed.tfplandiff"
+            }
+          }
+        }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.tfplandiff",
+          "match": "#.*$"
+        }
+      ]
+    }
+  }
+}
